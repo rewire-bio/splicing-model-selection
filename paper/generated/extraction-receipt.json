@@ -1,0 +1,37 @@
+{
+  "archive": "downloads/splice-shortlist-outputs.zip",
+  "archive_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33",
+  "cross_check_against_article_values": "evidence-map T2, T3, T4, T5, T6, C-POP, C-OVERLAP, F4, M-STUDY",
+  "cross_check_mismatches": [],
+  "generated": [
+    "macros.tex",
+    "tab_b100.tex",
+    "tab_bands.tex",
+    "tab_bands_full.tex",
+    "tab_budgets.tex",
+    "tab_contrasts_hist.tex",
+    "tab_contrasts_sel.tex",
+    "tab_curve.tex",
+    "tab_depths.tex",
+    "tab_downloads.tex",
+    "tab_matched.tex",
+    "tab_overlap.tex",
+    "tab_resources.tex",
+    "tab_tutorial.tex",
+    "tab_valgrid.tex",
+    "tab_zero_share.tex"
+  ],
+  "kind": "formatting/extraction only; no recomputation",
+  "members_read_in_memory": {
+    "splice-shortlist/out-b25/metrics.json": "e4ecb3ac2ad8cc99146bfe5e894556b956e5f7224c71995973205065dc8eb40e",
+    "splice-shortlist/out-b300/metrics.json": "f4c84a9cad00289c99080042c67fe4e125b9c1f7166b25eae789a43379ed5b82",
+    "splice-shortlist/out-selected-b100/metrics.json": "acb0d83cfeaea7e1ee1bfb4331fd5da0b20796263208da163a9b0b0f8f7f2d4a",
+    "splice-shortlist/out-tutorial/metrics.json": "4b7c01f00e199e6fead394be39d764357611d3de17bae9d658a770814e8e2ea3",
+    "splice-shortlist/out/metrics.json": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+    "splice-shortlist/runs/controls/receipt.json": "b1d07f327b82059b71b8c6f163cc3ddc6067b0be4beaab87cdc0b556ab2f2d23"
+  },
+  "schema_version": 1,
+  "transcribed_inputs": {
+    "evidence/paper-migration/matched-study-contrasts.json": "eea3dec3c61be74844a154515cbfb05ea390a3d6e7b9867bb294cdfcc07771f0"
+  }
+}

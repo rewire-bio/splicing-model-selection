@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "evidence_class": "matched_study_reported (transcribed, not recomputed)",
+  "purpose": "Resolves evidence-map item U-MSTUDY-MISSING: the original article stated 5 of the 9 matched-study interval values; the remaining 4 are transcribed here from the published study files. No computation was performed.",
+  "source": {
+    "repository": "https://github.com/rewire-bio/rewire-benchmarks",
+    "revision": "093fd1ae198c80ce34408d84d6543bca4fc538f2",
+    "readme": "benchmarks/mfass/results/matched-annotation-v1/README.md",
+    "readme_sha256": "8f1c5e7d39ab634fef15f6392f7b06d5dc05f28dae439074665a995c9929fb1f",
+    "contrast_files": {
+      "contrasts/S1-S0.json": "43f6b362ad32660ec799af30b842b46ff96a12c4ca877a2b200a38e613f7649d",
+      "contrasts/P1-P0.json": "21e9b792de7c2d10f81e4eb6d27b8ba2942791bd236af62d070ce8f36dddb7d3",
+      "contrasts/P0-S0.json": "d2fd0235757ddcb05b5b00e9c3488389236f82ed966f2e98dffdf6212a160a18"
+    },
+    "retrieval": "Copies retrieved 2026-09-29 (UTC) by the original study's research step via the GitHub API tarball at 093fd1a; the contrast-file digests equal the entries in that study's SHA256SUMS. Not re-retrieved during migration.",
+    "design": "whole-group bootstrap, 2,000 draws, seed 20260914, 95% percentile intervals, 8,297 common variants, 314 positives, 460 groups"
+  },
+  "contrasts": {
+    "S1 - S0 (SpliceAI masking)": {
+      "p_at_100": {"observed": 0.020, "ci95": [0.000, 0.062], "share_of_draws_exactly_zero": 0.225},
+      "average_precision": {"observed": 0.017, "ci95": [0.006, 0.028]},
+      "auroc": {"observed": 0.011, "ci95": [-0.007, 0.027]}
+    },
+    "P1 - P0 (Pangolin masking)": {
+      "p_at_100": {"observed": 0.010, "ci95": [0.000, 0.040], "share_of_draws_exactly_zero": 0.444},
+      "average_precision": {"observed": 0.022, "ci95": [0.011, 0.034]},
+      "auroc": {"observed": -0.004, "ci95": [-0.019, 0.013]}
+    },
+    "P0 - S0 (unmasked tools, matched annotation)": {
+      "p_at_100": {"observed": 0.020, "ci95": [-0.033, 0.083]},
+      "average_precision": {"observed": 0.093, "ci95": [0.064, 0.124]},
+      "auroc": {"observed": 0.073, "ci95": [0.048, 0.096]}
+    }
+  },
+  "newly_transcribed_relative_to_article": ["S1 - S0 P@100 upper bound 0.062", "P1 - P0 P@100 observed +0.010 and upper bound 0.040", "S1 - S0 AUROC +0.011 [-0.007, 0.027]", "P1 - P0 AUROC -0.004 [-0.019, 0.013]"]
+}

@@ -1,0 +1,638 @@
+{
+  "schema_version": 1,
+  "status": "historical_imported: every value comes from the 2026-09-29/30 companion run, the matched study it replays, or the cited literature; nothing was recomputed or reproduced during migration",
+  "evidence_classes": {
+    "companion_computed": "computed/fitted by the companion on 2026-09-29/30 (archived outputs zip)",
+    "saved_score_replay": "companion re-evaluation of published SpliceAI/Pangolin predictions (no inference)",
+    "matched_study_reported": "values reported by rewire-benchmarks@093fd1a, cited or transcribed",
+    "literature": "published third-party sources as cited in the original article; not re-retrieved",
+    "interpretation": "authorial reading of the recorded values"
+  },
+  "claims": [
+    {
+      "id": "C-POP",
+      "claim": "Common scored population: 8,297 of 8,324 held-out variants, 314 disrupting, 460 groups; 27 excluded",
+      "manuscript": "sec:population, tab:b100",
+      "evidence_class": "companion_computed",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.population",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "C-EXCL",
+      "claim": "27 exclusions: 23 recorded alleles complementary to GRCh38; 4 ARHGEF3 outside the GENCODE 44 canonical span",
+      "manuscript": "sec:population",
+      "evidence_class": "companion_computed",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/excluded.csv",
+          "pointer": "all rows, reason column",
+          "sha256": "a21b27287f5719c2a6ddd681b4b2323fdc89359b76a2c107e5c5345d42e24a7b",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "section 'The evaluation population is 8,297 of 8,324 held-out variants'",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-EXCL-TRAIN",
+      "claim": "The orientation defect affects 90 cohort records (21 held-out records from the CYFIP1 exon) and 67 training-arm records",
+      "manuscript": "sec:qc, sec:limitations",
+      "evidence_class": "matched_study_reported (exclusions addendum)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "check-variant section; Limits (Assembly)",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-BUILD",
+      "claim": "Cohort build: 32,669 source rows, 27,733 eligible, 1,050 disrupting, 2,198 exons (2,185 spanned by eligible variants); legacy sequence reverse-complemented in 7,770; train 19,409/735/1,127; test 8,324/315/463",
+      "manuscript": "sec:data",
+      "evidence_class": "companion_computed (article text only)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "section 'Reproduce the shortlist', build console block",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-KMER-BYTE",
+      "claim": "Companion refit of kmer_cons is byte-identical to the published baseline-kmer-position-v2 predictions",
+      "manuscript": "sec:controls",
+      "evidence_class": "companion_computed",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/runs/controls/kmer_cons.predictions.tsv",
+          "pointer": "whole file; SHA-256 equals companion PINNED digest",
+          "sha256": "2f3117c225a8da9ea737abfa2d0f7e1dec97696ae4bacd263864bec9d7f923eb",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "companion/README.md",
+          "pointer": "Expected results, first bullet",
+          "sha256": "a8e06d886551f1fd335c97c41feaae81bf077f50d10b5dc15d342f0a5c21befd"
+        }
+      ]
+    },
+    {
+      "id": "C-HP-SEL",
+      "claim": "Validation grid selects (0.06, 15) for kmer_assay and (0.1, 15) for kmer_cons; published (0.06, 31) kept as default",
+      "manuscript": "sec:controls, tab:valgrid",
+      "evidence_class": "companion_computed",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/runs/controls/receipt.json",
+          "pointer": "$.methods.*.validation_grid, validation_selected",
+          "sha256": "b1d07f327b82059b71b8c6f163cc3ddc6067b0be4beaab87cdc0b556ab2f2d23",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "C-REPLAY",
+      "claim": "Replay reproduces matched-study AP and AUROC to 1e-12 and registered-order P@100",
+      "manuscript": "sec:replay",
+      "evidence_class": "saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "companion/README.md",
+          "pointer": "Expected results, second bullet",
+          "sha256": "a8e06d886551f1fd335c97c41feaae81bf077f50d10b5dc15d342f0a5c21befd"
+        },
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "text after Table 2",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-GTF",
+      "claim": "GENCODE 44 GTF yields 62,754 Ensembl_canonical transcripts",
+      "manuscript": "sec:replay",
+      "evidence_class": "companion_computed (article text only)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "section 'Reproduce the shortlist', annotation paragraph",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "T2",
+      "claim": "Budget-100 table: expected P@100 with tie range, registered-order P@100, tie size, recall, AP, AUROC",
+      "manuscript": "tab:b100",
+      "evidence_class": "companion_computed + saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.methods.<name>.{precision_at_budget_expected, precision_at_budget_range, precision_at_budget_registered_tie_order, tied_at_cutoff, recall_at_budget_expected, average_precision, auroc}",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "T2-RES",
+      "claim": "Resources: controls 30.81 s and 278.1 MB peak RSS; specialist scoring 6,921/6,102/19,153/18,655 s recorded by the matched study; downloads",
+      "manuscript": "tab:resources",
+      "evidence_class": "companion_computed + matched_study_reported",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.resources",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/runs/controls/receipt.json",
+          "pointer": "$.seconds_end_to_end, $.peak_rss_mb",
+          "sha256": "b1d07f327b82059b71b8c6f163cc3ddc6067b0be4beaab87cdc0b556ab2f2d23",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "T3",
+      "claim": "Paired differences against kmer_cons at 25 (post hoc), 100, 300 (post hoc), AP, AUROC",
+      "manuscript": "tab:contrasts-hist, fig:forest",
+      "evidence_class": "companion_computed + saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b25/metrics.json",
+          "pointer": "$.paired_contrasts['<m> - kmer_cons']",
+          "sha256": "e4ecb3ac2ad8cc99146bfe5e894556b956e5f7224c71995973205065dc8eb40e",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.paired_contrasts['<m> - kmer_cons']",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b300/metrics.json",
+          "pointer": "$.paired_contrasts['<m> - kmer_cons']",
+          "sha256": "f4c84a9cad00289c99080042c67fe4e125b9c1f7166b25eae789a43379ed5b82",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "T3-ZERO",
+      "claim": "Share of bootstrap draws with a P@k difference of exactly zero; realised depths",
+      "manuscript": "tab:zero-share, tab:depths",
+      "evidence_class": "companion_computed",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b25/metrics.json",
+          "pointer": "$.paired_contrasts.*.precision_at_budget.share_of_draws_exactly_zero; realised_depth",
+          "sha256": "e4ecb3ac2ad8cc99146bfe5e894556b956e5f7224c71995973205065dc8eb40e",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.paired_contrasts.*.precision_at_budget.share_of_draws_exactly_zero; realised_depth",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b300/metrics.json",
+          "pointer": "$.paired_contrasts.*.precision_at_budget.share_of_draws_exactly_zero; realised_depth",
+          "sha256": "f4c84a9cad00289c99080042c67fe4e125b9c1f7166b25eae789a43379ed5b82",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-selected-b100/metrics.json",
+          "pointer": "$.paired_contrasts.*.precision_at_budget.share_of_draws_exactly_zero; realised_depth",
+          "sha256": "acb0d83cfeaea7e1ee1bfb4331fd5da0b20796263208da163a9b0b0f8f7f2d4a",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-tutorial/metrics.json",
+          "pointer": "$.paired_contrasts.*.precision_at_budget.share_of_draws_exactly_zero; realised_depth",
+          "sha256": "4b7c01f00e199e6fead394be39d764357611d3de17bae9d658a770814e8e2ea3",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "T4",
+      "claim": "Paired differences against kmer_cons_selected at 100",
+      "manuscript": "tab:contrasts-sel",
+      "evidence_class": "companion_computed + saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-selected-b100/metrics.json",
+          "pointer": "$.paired_contrasts['<m> - kmer_cons_selected']",
+          "sha256": "acb0d83cfeaea7e1ee1bfb4331fd5da0b20796263208da163a9b0b0f8f7f2d4a",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "M-STUDY",
+      "claim": "Matched-study specialist-pair contrasts (S1-S0, P1-P0, P0-S0) on P@100, AP and AUROC",
+      "manuscript": "tab:matched",
+      "evidence_class": "matched_study_reported (transcribed)",
+      "evidence": [
+        {
+          "artifact": "evidence/paper-migration/matched-study-contrasts.json",
+          "pointer": "$.contrasts",
+          "sha256": "eea3dec3c61be74844a154515cbfb05ea390a3d6e7b9867bb294cdfcc07771f0"
+        },
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "section 'At 100 experiments...', paragraph after Table 3",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "T5",
+      "claim": "Expected precision with tie range at 25, 100 and 300",
+      "manuscript": "tab:budgets",
+      "evidence_class": "companion_computed + saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b25/metrics.json",
+          "pointer": "$.methods.<name>.precision_at_budget_expected/range",
+          "sha256": "e4ecb3ac2ad8cc99146bfe5e894556b956e5f7224c71995973205065dc8eb40e",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.methods.<name>.precision_at_budget_expected/range",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b300/metrics.json",
+          "pointer": "$.methods.<name>.precision_at_budget_expected/range",
+          "sha256": "f4c84a9cad00289c99080042c67fe4e125b9c1f7166b25eae789a43379ed5b82",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "claim": "Budget curve at k in {10,...,800}; SpliceAI P@10 = 0.548",
+      "manuscript": "fig:budget, tab:curve",
+      "evidence_class": "companion_computed + saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.methods.<name>.budget_curve",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "article/assets/04-budget-curve.svg",
+          "pointer": "figure",
+          "sha256": "2d6d0fccfad7d281a55b55b5d6e4f1680403a46b802fe603b5ac5a88459b7e3e"
+        }
+      ]
+    },
+    {
+      "id": "F5",
+      "claim": "Forest plot of paired P@k differences",
+      "manuscript": "fig:forest",
+      "evidence_class": "companion_computed + saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "article/assets/05-paired-differences-forest.svg",
+          "pointer": "figure",
+          "sha256": "f169c3ecd680987d79be8252901aed30727d2c053775faa0b2e0cfbcac94838a"
+        }
+      ]
+    },
+    {
+      "id": "T6",
+      "claim": "Junction-distance bands: disruptors captured in top 100/300 and within-band AUROC",
+      "manuscript": "tab:bands, tab:bands-full",
+      "evidence_class": "companion_computed + saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.junction_distance_bands",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b300/metrics.json",
+          "pointer": "$.junction_distance_bands",
+          "sha256": "f4c84a9cad00289c99080042c67fe4e125b9c1f7166b25eae789a43379ed5b82",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b25/metrics.json",
+          "pointer": "$.junction_distance_bands",
+          "sha256": "e4ecb3ac2ad8cc99146bfe5e894556b956e5f7224c71995973205065dc8eb40e",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "C-OVERLAP",
+      "claim": "Top-100 overlap: kmer_cons and P0 share 61; S0 and P0 share 88",
+      "manuscript": "sec:ties, tab:overlap",
+      "evidence_class": "companion_computed",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.top_k_overlap",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "C-TIES",
+      "claim": "Tie structure at 25 (SpliceAI 7 at 1.00, 23 at 0.99 for 18 slots), at 100 (P1 3 tied for 2 slots) and distance (171 tied)",
+      "manuscript": "sec:ties",
+      "evidence_class": "companion_computed + saved_score_replay",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b25/metrics.json",
+          "pointer": "$.methods.S1.tied_at_cutoff, slots",
+          "sha256": "e4ecb3ac2ad8cc99146bfe5e894556b956e5f7224c71995973205065dc8eb40e",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.methods.P1, distance",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "section 'One variant passes the scoring checks...'",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-CASES",
+      "claim": "IPO9 and COL1A2 case variants (ranks under kmer_cons and specialists)",
+      "manuscript": "sec:ties",
+      "evidence_class": "companion_computed (article text only; imported, unverified)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "final paragraph of the ties section",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-CHECKVAR",
+      "claim": "check-variant worked examples: DDX1 passes; CYFIP1 fails reference check (135 vs 0 mismatches); ARHGEF3 outside canonical span",
+      "manuscript": "sec:qc",
+      "evidence_class": "companion_computed (article text only)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "check-variant console blocks",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-DEPTH",
+      "claim": "Realised bootstrap depths 21-31, 83-126, 250-378",
+      "manuscript": "sec:stats, tab:depths",
+      "evidence_class": "companion_computed",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b25/metrics.json",
+          "pointer": "$.paired_contrasts.*.realised_depth",
+          "sha256": "e4ecb3ac2ad8cc99146bfe5e894556b956e5f7224c71995973205065dc8eb40e",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.paired_contrasts.*.realised_depth",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b300/metrics.json",
+          "pointer": "$.paired_contrasts.*.realised_depth",
+          "sha256": "f4c84a9cad00289c99080042c67fe4e125b9c1f7166b25eae789a43379ed5b82",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "C-TUTORIAL",
+      "claim": "Tutorial subset 977 variants, 44 disrupting, 58 groups; pipeline check only",
+      "manuscript": "app:supp, tab:tutorial",
+      "evidence_class": "companion_computed",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-tutorial/metrics.json",
+          "pointer": "$.population, $.paired_contrasts",
+          "sha256": "4b7c01f00e199e6fead394be39d764357611d3de17bae9d658a770814e8e2ea3",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "C-COUNTS-INTERVALS",
+      "claim": "Interval inventory: 9 matched-study, 20 distinct against kmer_cons, 12 against kmer_cons_selected; none adjusted",
+      "manuscript": "sec:stats",
+      "evidence_class": "companion_computed + matched_study_reported",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "section 'The evaluation population...', third paragraph",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-ARCHIVED-ANN",
+      "claim": "Archived runs with other annotations scored 8,194 and 8,301 variants; not pooled",
+      "manuscript": "sec:limitations",
+      "evidence_class": "matched_study_reported",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "Limits and failure cases, Coverage",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "C-EXEC",
+      "claim": "Companion commands executed 29-30 September 2026 by an AI coding agent on an Apple M4 CPU (macOS 26.6.2, uv 0.8.2); clean-archive rerun byte-identical except timing fields; pytest 26 passed",
+      "manuscript": "sec:provenance",
+      "evidence_class": "execution record (article text only)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "section 'Reproduce the shortlist', final paragraphs",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "L-MFASS",
+      "claim": "MFASS design, disruption definition, 27,733 variants, 1,050 (3.8%) disrupting, 83% outside canonical sites; 13 of 19 confirmed",
+      "manuscript": "sec:background, sec:limitations",
+      "evidence_class": "literature (not re-retrieved)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "decision section; Limits",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "L-THRESH",
+      "claim": "Optimal thresholds vary between exons, regions and variant classes (Smith and Kitzman)",
+      "manuscript": "sec:background",
+      "evidence_class": "literature (not re-retrieved)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "decision section; Figure 2 caption",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "L-MASKFIG",
+      "claim": "Background masking and annotation effects (11,795 / 8,719; 280 / 270; read from figure)",
+      "manuscript": "sec:background, fig:mask",
+      "evidence_class": "literature (values read from a figure)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "Figure 3 caption",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "L-CLINGEN",
+      "claim": "SpliceAI >=0.2 / <=0.1 are ClinGen calibrations; 0.2 high-recall and 0.5 recommended in SpliceAI README",
+      "manuscript": "sec:background",
+      "evidence_class": "literature (not re-retrieved)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "decision section",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "L-CAGI5",
+      "claim": "CAGI5: predicting a splicing assay cannot directly imply clinical significance",
+      "manuscript": "sec:limitations",
+      "evidence_class": "literature (not re-retrieved)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "Limits, Reporter to patient",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "L-MASKDEF",
+      "claim": "Mask defaults and semantics differ (SpliceAI -M 0, Pangolin -m True); per-gene patch",
+      "manuscript": "sec:replay",
+      "evidence_class": "literature (not re-retrieved)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "Configurations section",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "L-LICENCES",
+      "claim": "Pangolin GPL-3.0; SpliceAI PolyForm Strict 1.0.0 / CC BY-NC 4.0 vs PyPI GPLv3; MFASS no licence",
+      "manuscript": "sec:availability",
+      "evidence_class": "literature (not re-retrieved)",
+      "evidence": [
+        {
+          "artifact": "article/published-original.md",
+          "pointer": "Limits and failure cases, licence paragraph",
+          "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6",
+          "note": "byte-identical copy of the published article (import manifest digest 5d47e526d9f6...; link-adjusted copy at article/original.md)"
+        }
+      ]
+    },
+    {
+      "id": "I-MAIN",
+      "claim": "At 100, no specialist P@100 difference against either baseline was established; not equivalence",
+      "manuscript": "abstract, sec:discussion",
+      "evidence_class": "interpretation",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out/metrics.json",
+          "pointer": "$.paired_contrasts",
+          "sha256": "b629b2e4e125f74a82b467b9823473dd223375db19630ea57ab5c90487a47f15",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        },
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-selected-b100/metrics.json",
+          "pointer": "$.paired_contrasts",
+          "sha256": "acb0d83cfeaea7e1ee1bfb4331fd5da0b20796263208da163a9b0b0f8f7f2d4a",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    },
+    {
+      "id": "I-P300",
+      "claim": "Pangolin P@300 and whole-list intervals exclude zero; 300 post hoc, so a lead to test",
+      "manuscript": "abstract, sec:discussion",
+      "evidence_class": "interpretation",
+      "evidence": [
+        {
+          "artifact": "downloads/splice-shortlist-outputs.zip!splice-shortlist/out-b300/metrics.json",
+          "pointer": "$.paired_contrasts",
+          "sha256": "f4c84a9cad00289c99080042c67fe4e125b9c1f7166b25eae789a43379ed5b82",
+          "container_sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+        }
+      ]
+    }
+  ]
+}

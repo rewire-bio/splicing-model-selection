@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "kind": "imported-evidence manuscript build; compiling is not scientific verification",
+  "built_at_utc": "2026-10-06T10:42:15+00:00",
+  "tools": {
+    "pdflatex": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)",
+    "bibtex": "BibTeX 0.99e (TeX Live 2026)",
+    "rsvg-convert": "rsvg-convert version 2.62.3",
+    "python": "3.14.7",
+    "tex_distribution": "TeX Live 2026 (local install under /Library/TeX/texbin)"
+  },
+  "environment": {
+    "SOURCE_DATE_EPOCH": "1791244800",
+    "FORCE_SOURCE_DATE": "1",
+    "TZ": "UTC"
+  },
+  "commands": [
+    {
+      "cwd": ".",
+      "command": "python3.14 scripts/paper_extract.py",
+      "exit": 0
+    },
+    {
+      "cwd": ".",
+      "command": "python3.14 scripts/paper_ledger.py",
+      "exit": 0
+    },
+    {
+      "cwd": ".",
+      "command": "rsvg-convert -f pdf -o paper/figures/04-budget-curve.pdf article/assets/04-budget-curve.svg",
+      "exit": 0
+    },
+    {
+      "cwd": ".",
+      "command": "rsvg-convert -f pdf -o paper/figures/05-paired-differences-forest.pdf article/assets/05-paired-differences-forest.svg",
+      "exit": 0
+    },
+    {
+      "cwd": ".",
+      "command": "rsvg-convert -f pdf -o paper/figures/06-selection-flowchart.pdf article/assets/06-selection-flowchart.svg",
+      "exit": 0
+    },
+    {
+      "cwd": "paper",
+      "command": "pdflatex -interaction=nonstopmode -halt-on-error -file-line-error -output-directory=build main.tex",
+      "exit": 0
+    },
+    {
+      "cwd": "paper/build",
+      "command": "bibtex main",
+      "exit": 0
+    },
+    {
+      "cwd": "paper",
+      "command": "pdflatex -interaction=nonstopmode -halt-on-error -file-line-error -output-directory=build main.tex",
+      "exit": 0
+    },
+    {
+      "cwd": "paper",
+      "command": "pdflatex -interaction=nonstopmode -halt-on-error -file-line-error -output-directory=build main.tex",
+      "exit": 0
+    }
+  ],
+  "figures_converted": {
+    "paper/figures/04-budget-curve.pdf": {
+      "from": "article/assets/04-budget-curve.svg",
+      "source_sha256": "2d6d0fccfad7d281a55b55b5d6e4f1680403a46b802fe603b5ac5a88459b7e3e"
+    },
+    "paper/figures/05-paired-differences-forest.pdf": {
+      "from": "article/assets/05-paired-differences-forest.svg",
+      "source_sha256": "f169c3ecd680987d79be8252901aed30727d2c053775faa0b2e0cfbcac94838a"
+    },
+    "paper/figures/06-selection-flowchart.pdf": {
+      "from": "article/assets/06-selection-flowchart.svg",
+      "source_sha256": "ef18f886b3fbab0e980fa92259333122998e93bb320cf355e61bb0a82feeec96"
+    }
+  },
+  "outputs": {
+    "paper/build/main.pdf": {
+      "sha256": "9f65d021afc61cee05f5c3892bb3526601b80d13fa41e002094f1c366d4c5b90",
+      "bytes": 1085080,
+      "pages": 25
+    }
+  },
+  "warnings": {
+    "latex": [],
+    "bibtex": [],
+    "counts": {
+      "latex": 0,
+      "bibtex": 0
+    }
+  }
+}
