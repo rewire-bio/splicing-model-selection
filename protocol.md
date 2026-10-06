@@ -1,6 +1,6 @@
 # Splicing scores for a fixed minigene budget: computational reproduction protocol
 
-Status: **UNAPPROVED** (draft v2, prepared 2026-10-06 by the research-designer role, model
+Status: **UNAPPROVED** (draft v2, engineering status corrected 2026-10-06; prepared 2026-10-06 by the research-designer role, model
 `claude-opus-5-5`). Draft v2 applies corrections C1 to C13 from
 `migration-review/proposed-protocol-corrections.md`, which came from the methods review of draft v1
 (`migration-review/review.md`, snapshot `108d850`). The mapping from each correction to where it was
@@ -112,7 +112,7 @@ the science was validated.
   SHA-256 of each member in `evidence/claims.json`. Comparisons extract only into a git-ignored
   scratch directory. Under the 4-thread cap R7 is a **new condition**, because the reference run used
   default threads (§8.3).
-- **R8 (tests).** `pytest -q` in the companion working copy reports 26 passed and 0 failed. R8
+- **R8 (tests).** `pytest -q` in the populated companion working copy passes every collected test, with zero failures and zero skips. The historical suite contained 26 tests; added regression tests must also pass. R8
   re-checks R3 to R5 on the same outputs, so it is not independent evidence (§13).
 
 **Not part of R1 to R8:** the three `check-variant` calls. They are a live external check (§6.2).
@@ -300,7 +300,7 @@ budget, and owner approval.
 
 ### 6.4 Paper and blog builds (no experiment)
 
-These builds only read existing results. `make paper` compiles the manuscript in one of two modes:
+These builds only read existing results. The intended two modes are listed below; only the imported-evidence mode is implemented:
 - **Imported-evidence draft.** Macros are generated from the imported reference values, and every
   number carries the label "imported, not reproduced".
 - **Reproduced (manuscript mode for any outcome).** Macros are generated from
@@ -311,17 +311,16 @@ These builds only read existing results. `make paper` compiles the manuscript in
   - the live-check table shows match, mismatch or unavailable;
   - imported values appear next to reproduced values and are never overwritten.
 
-The imported-evidence draft is **not buildable yet**:
-- `scripts/build_paper.py` still requires the π-fixture artefact `paper/figures/convergence.pdf`;
-- `paper/main.tex` is a placeholder;
-- there is no `paper-imported` target.
+The imported-evidence manuscript is now implemented in `paper/main.tex`, with the
+`make paper-imported` target and a local TeX Live builder. It formats hash-verified archived
+metrics and compiles the paper without running experiments, fetching data or creating an environment.
+This build is not scientific verification or independent reproduction. The reproduced-results paper
+mode remains pending with the scientific harness implementation.
 
-Until S8 and S9 are done, no paper-mode claim is made. Compiling either mode is not scientific
-verification. A paper build failure is recorded and does not change the R1 to R8 outcome.
-
-The paper toolchain (Tectonic and bundle v33 from relay.fullyjustified.net, installed under `.tools/`)
-is **outside Tier 1**. Its time is excluded from the 2,700 s and 3,600 s caps and is recorded
-separately against the 600 s paper cap. Its disk use **counts** towards the 2 GB aggregate (§9).
+The current paper builder uses locally installed `pdflatex`, `bibtex` and `rsvg-convert`.
+It does not use or download Tectonic; `scripts/bootstrap_tectonic.py` is a retained, unused scaffold.
+Any future execution protocol must reconcile its paper-toolchain budget and commands with this
+implemented builder before approval. No research execution is approved by this status correction.
 
 ## 7. Uncertainty
 
@@ -358,7 +357,7 @@ These must match exactly:
 - input digests (R1);
 - the validation-selected hyperparameters;
 - registered-tie-order P@k values (these are rationals, hits/k) and the [min, max] tie ranges;
-- the pytest summary, which must be exactly 26 passed.
+- the pytest result: every collected test passes, with zero failures and zero skips; record the test count and source revision.
 
 ### 8.2 Floating point
 
@@ -546,9 +545,9 @@ is recorded, and none is claimed or implied here.
 **Engineering still pending under the harness approval gate.** Today:
 - `scripts/experiment.py` and `scripts/analyse.py` are disabled `SystemExit` stubs;
 - `evidence/claims.json`, `data/manifest.json` and `evidence/reviews.json` are empty;
-- `Makefile:test` fails because there is no `tests/` directory;
-- the paper build still depends on the π fixture;
-- CI triggers on every push.
+- `make test` runs the companion unit/regression tests; integration tests skip without scientific inputs;
+- the imported-evidence paper builds from historical outputs using local TeX Live;
+- push/PR CI runs offline tests and archived-table validation; the separate reproduction workflow remains manual and unimplemented.
 
 Scaffold tasks S1 to S10 (`migration-plan/scaffold-replacement.md`) must land before A can run, with
 S10 landing before or together with S1. Implementing them does not change this protocol. Any change to

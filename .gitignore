@@ -18,3 +18,9 @@ blog-handoff/
 !paper/build/main.pdf
 !paper/generated/*.tex
 !paper/figures/*.pdf
+
+# Runtime companion inputs/outputs are local; imported archives remain tracked.
+companion/data/
+companion/runs/
+companion/out*/
+.pytest_cache/

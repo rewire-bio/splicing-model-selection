@@ -231,6 +231,7 @@ def cmd_build(args):
     counts = (len(train), len(test), sum(r["sdv"] for r in train), sum(r["sdv"] for r in test))
     if counts != (N_TRAIN, N_TEST, POS_TRAIN, POS_TEST):
         raise SystemExit(f"split counts changed: {counts}")
+    validate_cohort(out)
     write_tsv(DATA / "cohort.tsv", out, list(out[0]))
     print(f"assay-pair checks passed for all {len(out)} variants; legacy sequence "
           f"reverse-complemented in {orient['reverse_complement']}")
@@ -239,10 +240,26 @@ def cmd_build(args):
           f"in {len({r['group'] for r in test})} groups")
 
 
+def validate_cohort(rows):
+    """Reject ambiguous rows and train/test group leakage before fitting or scoring."""
+    seen, groups = set(), {"train": set(), "test": set()}
+    for row in rows:
+        i = row["id"]
+        if not i or i in seen:
+            raise ValueError(f"cohort has an empty or duplicate ID: {i!r}")
+        seen.add(i)
+        if row["split"] not in groups or int(row["sdv"]) not in (0, 1) or not row["group"]:
+            raise ValueError(f"invalid cohort split, label or group for {i}")
+        groups[row["split"]].add(row["group"])
+    if groups["train"] & groups["test"]:
+        raise ValueError("train and test groups overlap")
+
+
 def load_cohort():
     rows = read_tsv(DATA / "cohort.tsv")
     for r in rows:
         r["sdv"] = int(r["sdv"])
+    validate_cohort(rows)
     return rows
 
 
@@ -569,10 +586,37 @@ def paired_bootstrap(labels, base, cand, groups, k, draws, seed):
                                                "max": int(max(caps)), "mean": float(np.mean(caps))}}
 
 
-def load_scores(name):
+def load_scores(name, cohort=None):
     path = (RUNS / "controls" / f"{name}.predictions.tsv" if name in CONTROLS or name in SELECTED
             else DATA / f"{name}.predictions.tsv")
-    return {r["id"]: float(r["score"]) for r in read_tsv(path) if r["score"] != ""}
+    scores, seen = {}, set()
+    for row in read_tsv(path):
+        i = row["id"]
+        if not i or i in seen:
+            raise ValueError(f"{name}: empty or duplicate prediction ID {i!r}")
+        seen.add(i)
+        if cohort is not None:
+            if i not in cohort:
+                raise ValueError(f"{name}: prediction ID outside held-out cohort: {i}")
+            expected = cohort[i]
+            if row.get("group") != expected["group"] or row.get("label") != str(expected["sdv"]):
+                raise ValueError(f"{name}: label/group mismatch for {i}")
+        if row["score"] == "":
+            continue
+        score = float(row["score"])
+        if not np.isfinite(score):
+            raise ValueError(f"{name}: nonfinite score for {i}")
+        scores[i] = score
+    if cohort is not None and name in list(CONTROLS) + SELECTED and set(scores) != set(cohort):
+        raise ValueError(f"{name}: control predictions must cover every held-out variant")
+    return scores
+
+
+def validate_exclusions(cohort, common, excluded):
+    expected = set(cohort) - set(common)
+    reported = [r["id"] for r in excluded]
+    if len(reported) != len(set(reported)) or set(reported) != expected:
+        raise ValueError("score missingness does not match documented specialist exclusions")
 
 
 def exclusions(test_ids):
@@ -593,7 +637,8 @@ def exclusions(test_ids):
 
 def cmd_evaluate(args):
     rows = [r for r in load_cohort() if r["split"] == "test"]
-    by_id = {r["id"]: r for r in rows}
+    full_test = {r["id"]: r for r in rows}
+    by_id = full_test
     if args.tutorial:
         # Small real-data subset for a first run: every 8th held-out group.
         keep = sorted({r["group"] for r in rows})[::8]
@@ -604,10 +649,14 @@ def cmd_evaluate(args):
     missing = [m for m in list(CONTROLS) + extra if not (RUNS / "controls" / f"{m}.predictions.tsv").exists()]
     if missing:
         raise SystemExit(f"missing control predictions {missing}; run `controls` first")
-    scores = {m: load_scores(m) for m in methods + extra}
+    scores = {m: load_scores(m, full_test) for m in methods + extra}
     scored = {m: {i for i in s if i in by_id} for m, s in scores.items()}
     common = sorted(set(by_id).intersection(*scored.values()))
+    excluded = [e for e in exclusions(full_test) if e["id"] in by_id]
+    validate_exclusions(by_id, common, excluded)
     y = np.array([by_id[i]["sdv"] for i in common])
+    if len(np.unique(y)) != 2:
+        raise ValueError("evaluation requires both outcome classes in the common population")
     g = np.array([by_id[i]["group"] for i in common])
     k = args.budget
     if not 1 <= k <= len(common):
@@ -664,8 +713,6 @@ def cmd_evaluate(args):
                                       if 0 < y[mask].sum() < mask.sum() else None)}
         bands[label] = band
 
-    excluded = exclusions({r["id"]: r for r in read_tsv(DATA / "cohort.tsv") if r["split"] == "test"})
-    excluded = [e for e in excluded if e["id"] in by_id]
     write_tsv(out / "excluded.csv", excluded, list(excluded[0]) if excluded else ["id"], delimiter=",")
 
     # Shortlist for the configuration the reader chose, with ties flagged.

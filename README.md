@@ -22,3 +22,11 @@ Follow the companion README for the original runnable workflow. No new experimen
 review or independent reproduction is claimed by this migration.
 
 The repository will hold the detailed methods and paper; the blog will provide a shorter accessible explanation. Original third-party licences and notices remain applicable; no blanket relicensing is applied.
+
+## Validation and review
+
+Run `make test` for the maintained companion's offline tests. Data-dependent tests skip
+until the companion workflow has produced its inputs; a green offline check is not a
+scientific reproduction. Push and pull-request CI also validates archived manuscript tables.
+The historical archives are unchanged. See [the review record](evidence/repository-review-20261006.md)
+for findings, fixes and remaining reproduction limits.
