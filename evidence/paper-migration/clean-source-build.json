@@ -1,0 +1,11 @@
+{
+  "study": "splicing-model-selection",
+  "revision": "cf981a49c70266a1acfdcd0915b9109720c2c5db",
+  "checked_at_utc": "2026-10-06T11:01:34.192559+00:00",
+  "scope": "Paper build only from clean Git archive; no scientific experiment or data/model fetch",
+  "command": "make paper-imported",
+  "exit": 0,
+  "published_pdf_sha256": "9f65d021afc61cee05f5c3892bb3526601b80d13fa41e002094f1c366d4c5b90",
+  "clean_build_pdf_sha256": "9f65d021afc61cee05f5c3892bb3526601b80d13fa41e002094f1c366d4c5b90",
+  "byte_identical": true
+}
