@@ -1,0 +1,105 @@
+# Figure 6. Selection flowchart for splice-disruption shortlists (MFASS study).
+# Render: tools/blog-generator/scripts/d2/render_d2.sh 06-selection-flowchart.d2 06-selection-flowchart.svg
+direction: down
+
+classes: {
+  process: {
+    shape: rectangle
+  }
+  decision: {
+    shape: diamond
+  }
+  terminal_red: {
+    shape: rectangle
+    style.border-radius: 16
+    style.stroke: "#C62828"
+    style.stroke-width: 3
+    style.fill: "#FFFFFF"
+  }
+  terminal_grey: {
+    shape: rectangle
+    style.border-radius: 16
+    style.fill: "#E0E0E0"
+    style.stroke: "#616161"
+  }
+  terminal_amber: {
+    shape: rectangle
+    style.border-radius: 16
+    style.fill: "#FFE0A3"
+    style.stroke: "#B26A00"
+    style.stroke-width: 2
+  }
+  terminal_untested: {
+    shape: rectangle
+    style.border-radius: 16
+    style.fill: "#F5F5F5"
+    style.stroke: "#9E9E9E"
+    style.stroke-dash: 5
+  }
+  note: {
+    shape: rectangle
+    style.fill: "#FFFDF5"
+    style.stroke: "#757575"
+    style.stroke-dash: 4
+  }
+  dashed_link: {
+    style.stroke: "#757575"
+    style.stroke-dash: 4
+    target-arrowhead.shape: none
+  }
+}
+
+start: "Fixed budget of k constructs;\nlist of N human SNVs" {class: process}
+
+note: "Budget fractions below come from one pool:\n8,297 MFASS variants, 3.8% disrupting.\nA new pool or assay needs its own\nlabelled validation." {class: note}
+
+d1: "Endpoint is exon\nrecognition in an\nMFASS-like minigene?" {class: decision}
+
+t_transfer: "Results do not transfer:\npilot a labelled subset\nin your assay" {class: terminal_red}
+
+d2: "Labels from the same\nconstruct design, split\nby exon and gene?" {class: decision}
+
+d3l: "k as a fraction\nof N?" {class: decision}
+
+t_l25: "No difference established in\nthe 4 measured contrasts;\nties and hyperparameters\ndominate; fix the tie rule\n(Tables 3, 5)" {class: terminal_grey}
+
+t_l100: "No difference established\nvs kmer_cons (intervals\n−0.069 to +0.133); choose\non cost and coverage\n(Tables 2 to 4)" {class: terminal_grey}
+
+t_l300: "Pangolin P0/P1 led kmer_cons\n(post hoc, exploratory);\nrun the GRCh38 checks, pilot\nbefore committing\n(Tables 3, 6)" {class: terminal_amber}
+
+t_lother: "Not tested: point estimates\nonly (Figure 4); pilot on\nlabelled variants" {class: terminal_untested}
+
+checks: "Run GRCh38 allele, strand and\ncanonical-transcript checks on your list\n(as check-variant does for MFASS);\nrecord unscored variants; do not\ncomplement mismatched alleles" {class: process}
+
+d3u: "k as a fraction\nof N?" {class: decision}
+
+t_u100: "Specialists only: no top-100\ndifference established in the\nstudy's 3 contrasts; choose on\nruntime, downloads and licence\n(Table 2)" {class: terminal_grey}
+
+t_uother: "No specialist contrast tested at\nthis budget: point estimates only;\nP0 had higher AP and AUROC than S0\n(matched study, exploratory;\nworkflow, not architecture);\npilot before committing" {class: terminal_untested}
+
+tie: "Fix a label-independent tie rule\nbefore testing; keep the whole\ntied block (shortlist.csv)" {class: note}
+
+# Main flow
+start -> d1
+start -> note {class: dashed_link}
+d1 -> t_transfer: "no"
+d1 -> d2: "yes"
+
+d2 -> d3l: "yes"
+d3l -> t_l25: "about 0.3%\n(tested at 25, post hoc)"
+d3l -> t_l100: "about 1.2%\n(tested at 100, registered)"
+d3l -> t_l300: "about 3.6%\n(tested at 300, post hoc)"
+d3l -> t_lother: "any other fraction"
+
+d2 -> checks: "no"
+checks -> d3u
+d3u -> t_u100: "about 1.2%\n(tested at 100)"
+d3u -> t_uother: "any other fraction"
+
+# Tie-rule note linked to every terminal except the red one
+t_l25 -> tie {class: dashed_link}
+t_l100 -> tie {class: dashed_link}
+t_l300 -> tie {class: dashed_link}
+t_lother -> tie {class: dashed_link}
+t_u100 -> tie {class: dashed_link}
+t_uother -> tie {class: dashed_link}

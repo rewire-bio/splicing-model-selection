@@ -1,0 +1,89 @@
+{
+  "source_revision": "a2ba98c1463162cc91a6376fcdfc71e0023f0703",
+  "source_repository": "rewire-bio/rewire.it",
+  "issue": 339,
+  "files": [
+    {
+      "source_path": "code/splice-shortlist/NOTICE.md",
+      "path": "companion/NOTICE.md",
+      "sha256": "f47fd88ed468e66efe6cea4817b23f8a9305d57392ea468e2b76d9df7c2d95c5"
+    },
+    {
+      "source_path": "code/splice-shortlist/README.md",
+      "path": "companion/README.md",
+      "sha256": "a8e06d886551f1fd335c97c41feaae81bf077f50d10b5dc15d342f0a5c21befd"
+    },
+    {
+      "source_path": "code/splice-shortlist/pyproject.toml",
+      "path": "companion/pyproject.toml",
+      "sha256": "e5aae70ead8d21987ef50380b82ae38a5eab27918c48282236d08fb5270b6a35"
+    },
+    {
+      "source_path": "code/splice-shortlist/splice_shortlist.py",
+      "path": "companion/splice_shortlist.py",
+      "sha256": "fe87a5a98a3d009f6b816976262dec25278ea227aab2a1c04a8cfd491752e048"
+    },
+    {
+      "source_path": "code/splice-shortlist/test_splice_shortlist.py",
+      "path": "companion/test_splice_shortlist.py",
+      "sha256": "16a84ab13b618291b6f95c8eb3dd5e058477c001166431308aa5d6d9c4c51c51"
+    },
+    {
+      "source_path": "code/splice-shortlist/uv.lock",
+      "path": "companion/uv.lock",
+      "sha256": "6a08c82107fff0ae0cdc372dd4cae961a9b661b11d9d8f93ee8b8785351ffec8"
+    },
+    {
+      "source_path": "posts/choosing-a-splicing-score-for-a-fixed-minigene-budget.md",
+      "path": "article/original.md",
+      "sha256": "5d47e526d9f60353a947292caa4cf54ebafe20dd2460a441925846e0bdff57d6"
+    },
+    {
+      "source_path": "public/downloads/choosing-a-splicing-score-for-a-fixed-minigene-budget/splice-shortlist-outputs.zip",
+      "path": "downloads/splice-shortlist-outputs.zip",
+      "sha256": "6d1f0de2f359a1984c89f60b402a66e906cb24bc1a4beb7a97336af0f17dbb33"
+    },
+    {
+      "source_path": "public/downloads/choosing-a-splicing-score-for-a-fixed-minigene-budget/splice-shortlist.zip",
+      "path": "downloads/splice-shortlist.zip",
+      "sha256": "d83f90d8c68f60c0570de158fc04474e01cff63e11bbb107dc4d12c90a24d02a"
+    },
+    {
+      "source_path": "public/images/choosing-a-splicing-score-for-a-fixed-minigene-budget/04-budget-curve.svg",
+      "path": "article/assets/04-budget-curve.svg",
+      "sha256": "2d6d0fccfad7d281a55b55b5d6e4f1680403a46b802fe603b5ac5a88459b7e3e"
+    },
+    {
+      "source_path": "public/images/choosing-a-splicing-score-for-a-fixed-minigene-budget/05-paired-differences-forest.svg",
+      "path": "article/assets/05-paired-differences-forest.svg",
+      "sha256": "f169c3ecd680987d79be8252901aed30727d2c053775faa0b2e0cfbcac94838a"
+    },
+    {
+      "source_path": "public/images/choosing-a-splicing-score-for-a-fixed-minigene-budget/06-selection-flowchart.d2",
+      "path": "article/assets/06-selection-flowchart.d2",
+      "sha256": "96c6ec7c8622e8e84607826d082c2e6bf83e419ce0ce5a8aa080aa859535f7f2"
+    },
+    {
+      "source_path": "public/images/choosing-a-splicing-score-for-a-fixed-minigene-budget/06-selection-flowchart.svg",
+      "path": "article/assets/06-selection-flowchart.svg",
+      "sha256": "ef18f886b3fbab0e980fa92259333122998e93bb320cf355e61bb0a82feeec96"
+    },
+    {
+      "source_path": "public/images/choosing-a-splicing-score-for-a-fixed-minigene-budget/12-chart-mpsa-threshold-variability.jpg",
+      "path": "article/assets/12-chart-mpsa-threshold-variability.jpg",
+      "sha256": "049aa3b4787cf041d2a53a3a0b67360ab8d40aa14e8ee5b76191d957a3b15fa9"
+    },
+    {
+      "source_path": "public/images/choosing-a-splicing-score-for-a-fixed-minigene-budget/13-chart-masking-and-annotation-effects.jpg",
+      "path": "article/assets/13-chart-masking-and-annotation-effects.jpg",
+      "sha256": "0663324edeff637ee96defefa7f397c81134729ebbf25813fd84a94f6c906d2f"
+    },
+    {
+      "source_path": "public/images/choosing-a-splicing-score-for-a-fixed-minigene-budget/14-chart-mmsplice-vexseq-mfass.jpg",
+      "path": "article/assets/14-chart-mmsplice-vexseq-mfass.jpg",
+      "sha256": "ca9cd01f8bb031c461c8e0b58557cf65234dc97596f53cdd2432f48d34ad2f8e"
+    }
+  ],
+  "article_path_changes_only": true,
+  "status": "Historical evidence imported; not a new experiment or independent reproduction"
+}
