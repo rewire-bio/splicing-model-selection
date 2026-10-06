@@ -9,7 +9,12 @@ This outline is a plan only. It contains no new results. Every number comes from
 | Mode | Numbers from | Label on every page or footnote | When allowed |
 |---|---|---|---|
 | `imported` | Imported reference values: the evidence map, converted to `evidence/claims.json` and then to `paper/generated/macros.tex` | "Values imported from the 2026-09-30 companion run; not reproduced under this repository's harness" | Now. Compiling is not verification |
-| `reproduced` | `results/full/results.json` after the Tier 1 run approved by the protocol | "Reproduced on <platform>, <date>; outcome class: <protocol §11>" | Only after approval and a run. Each mismatch is shown, not hidden |
+| `reproduced` | `results/full/results.json` from the approved runs (A original analysis, B clean reproduction) | "Reproduced on <platform>, <date>; outcome class: <protocol §11>" | After any approved Tier 1 run ends, whether it completes or a stopping rule fires. The R1 to R8 table shows pass, fail, discrepancy or not run, and imported values sit next to reproduced values. Each mismatch is shown, not hidden |
+
+Neither mode is buildable yet. `scripts/build_paper.py` still requires the π-fixture
+`paper/figures/convergence.pdf`, `paper/main.tex` is a placeholder, and there is no `paper-imported`
+target. No paper-mode claim is made until S8 and S9 land. The paper build is capped at 600 s, timed
+separately from the reproduction, and counted in the 2 GB aggregate disk budget (protocol §9).
 
 Generated macros replace hand-typed numbers. Tables are generated from JSON. In `reproduced` mode,
 Figures 4 and 5 are regenerated from `metrics.json`; in `imported` mode, the imported SVGs are
@@ -105,8 +110,11 @@ converted.
   "imported, unverified" until U-CASE-IDS is resolved.
 - 5.7 Junction-distance bands (Table `tab:bands`) [T6]. No band intervals were computed.
 - 5.8 Reproduction status. In `imported` mode this is a placeholder box: "Not yet reproduced under
-  this repository's harness." In `reproduced` mode it shows the protocol §11 class and a table of
-  R1 to R8 with pass, fail or discrepancy.
+  this repository's harness." In `reproduced` mode it shows the protocol §11 class for each run (A
+  and B), a table of R1 to R8 with pass, fail, discrepancy or not run, and the `check-variant`
+  live-check status (match, mismatch or unavailable). The live check is outside R1 to R8.
+- Reporting rule (protocol §7): interval bounds within about 0.005 of zero are written as "at or near
+  zero; Monte Carlo error not quantified" [U-MC-ERROR].
 
 ## 6. Discussion
 
