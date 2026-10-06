@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "imported-evidence manuscript build; compiling is not scientific verification",
-  "built_at_utc": "2026-10-06T10:42:15+00:00",
+  "built_at_utc": "2026-10-06T18:34:05+00:00",
   "tools": {
     "pdflatex": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)",
     "bibtex": "BibTeX 0.99e (TeX Live 2026)",
@@ -77,8 +77,8 @@
   },
   "outputs": {
     "paper/build/main.pdf": {
-      "sha256": "9f65d021afc61cee05f5c3892bb3526601b80d13fa41e002094f1c366d4c5b90",
-      "bytes": 1085080,
+      "sha256": "0ccbe36bd0d32c7bf67c49594a22e6beddc41c356d3d6001e143409128ad0061",
+      "bytes": 1099522,
       "pages": 25
     }
   },

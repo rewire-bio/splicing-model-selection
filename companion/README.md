@@ -37,7 +37,7 @@ uv run --frozen python splice_shortlist.py annotation  # optional: GENCODE 44 ca
 uv run --frozen python splice_shortlist.py check-variant ENSE00000712808_003
 uv run --frozen python splice_shortlist.py evaluate --tutorial --budget 20 --draws 200 --method P0 --out out-tutorial
 uv run --frozen python splice_shortlist.py evaluate --budget 100 --method P0 --out out
-uv run --frozen pytest -q                               # 26 tests; data tests need the steps above
+uv run --frozen pytest -q                               # all tests must pass; data tests need the steps above
 ```
 
 - `--budget` is the number of constructs you can test. It must be between 1 and the number
@@ -134,3 +134,11 @@ from the authors' repository and does not redistribute them. `shortlist.csv` and
 alleles with GRCh38 but prints only the public GRCh38 base.
 
 The feature code in `featurise` follows `run_baseline.py` in rewire-benchmarks (MIT).
+
+## Maintained-code validation
+
+From the repository root, `make test` runs offline unit and integrity regression tests.
+Data-dependent tests skip on a fresh checkout; that is not a scientific reproduction.
+Evaluation now rejects duplicate/nonfinite scores, label or group mismatches, incomplete
+control predictions, unexplained exclusions and overlapping train/test groups before
+writing metrics. The historical download archives retain their original bytes and code.

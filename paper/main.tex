@@ -819,7 +819,7 @@ report 62,754 \texttt{Ensembl\_canonical} transcripts. Each full \texttt{evaluat
 ends \texttt{wrote out/shortlist.csv (100 rows for budget 100; 1 tied at the cutoff)}. \texttt{--budget} must be
 between 1 and the number of commonly scored variants (8,297; 977 with \texttt{--tutorial}) and \texttt{--draws} at least
 100; \texttt{--method} only chooses which shortlist is written and \texttt{--baseline} sets the contrast reference.
-\texttt{excluded.csv} lists the 27 exclusions with reasons; \texttt{pytest} should report 26 passed. The companion
+\texttt{excluded.csv} lists the 27 exclusions with reasons; the historical \texttt{pytest} run reported 26 passed. The maintained suite adds integrity regression tests; a full reproduction requires all collected tests to pass with no skips. The companion
 evaluates MFASS only; for another list, apply the same allele, strand and transcript checks with your own tooling. A
 command such as \texttt{--budget 60 --method P1 --out out-b60} would export a Pangolin shortlist for a budget of 60;
 that command was not executed.

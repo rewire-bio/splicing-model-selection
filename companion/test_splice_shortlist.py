@@ -218,3 +218,44 @@ def test_bootstrap_records_variable_realised_depths():
     for c in m["paired_contrasts"].values():
         d = c["realised_depth"]
         assert d["nominal"] == m["budget"] and d["min"] < m["budget"] < d["max"]
+
+
+# Prospective integrity guards; no source data or scientific rerun required.
+@pytest.mark.parametrize("rows, message", [
+    (["x\tg1\t1\t0.1", "x\tg1\t1\t0.2"], "duplicate"),
+    (["x\tg1\t1\tnan"], "nonfinite"),
+    (["x\tg1\t1\tinf"], "nonfinite"),
+    (["x\tg1\t0\t0.1"], "label/group mismatch"),
+    (["x\tg2\t1\t0.1"], "label/group mismatch"),
+    (["other\tg1\t1\t0.1"], "outside held-out"),
+])
+def test_scores_reject_ambiguous_or_corrupt_rows(tmp_path, monkeypatch, rows, message):
+    monkeypatch.setattr(ss, "DATA", tmp_path)
+    (tmp_path / "S0.predictions.tsv").write_text("id\tgroup\tlabel\tscore\n" + "\n".join(rows) + "\n")
+    with pytest.raises(ValueError, match=message):
+        ss.load_scores("S0", {"x": {"group": "g1", "sdv": 1}})
+
+
+def test_missing_control_score_is_not_silently_excluded(tmp_path, monkeypatch):
+    monkeypatch.setattr(ss, "RUNS", tmp_path)
+    (tmp_path / "controls").mkdir()
+    (tmp_path / "controls/kmer_cons.predictions.tsv").write_text("id\tgroup\tlabel\tscore\nx\tg1\t1\t\n")
+    with pytest.raises(ValueError, match="cover every held-out"):
+        ss.load_scores("kmer_cons", {"x": {"group": "g1", "sdv": 1}})
+
+
+def test_missingness_requires_exact_exclusion_accounting():
+    ss.validate_exclusions({"a": {}, "b": {}}, ["a"], [{"id": "b"}])
+    for report in ([], [{"id": "a"}], [{"id": "b"}, {"id": "b"}]):
+        with pytest.raises(ValueError, match="missingness"):
+            ss.validate_exclusions({"a": {}, "b": {}}, ["a"], report)
+
+
+def test_cohort_rejects_group_leakage_and_duplicate_ids():
+    rows = [{"id": "a", "group": "g1", "sdv": 1, "split": "train"},
+            {"id": "b", "group": "g2", "sdv": 0, "split": "test"}]
+    ss.validate_cohort(rows)
+    with pytest.raises(ValueError, match="groups overlap"):
+        ss.validate_cohort([rows[0], {**rows[1], "group": "g1"}])
+    with pytest.raises(ValueError, match="duplicate"):
+        ss.validate_cohort([rows[0], {**rows[1], "id": "a"}])
